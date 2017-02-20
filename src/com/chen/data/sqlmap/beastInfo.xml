@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="beastInfo">
+	<resultMap id="bean" type="com.chen.data.bean.BeastBean">
+		<result column="beastid" property="beastId"/>
+		<result column="name" property="name"/>
+		<result column="needlevel" property="needLevel"/>
+		<result column="maxlevel" property="maxLevel"/>
+		<result column="headid" property="headId"/>
+		<result column="skills" property="skills"/>
+	</resultMap>
+	<select id="select" resultMap="bean">
+		select * from beastinfo
+	</select>
+</mapper>

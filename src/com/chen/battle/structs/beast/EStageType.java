@@ -1,0 +1,35 @@
+package com.chen.battle.structs.beast;
+
+public enum EStageType 
+{
+	ROLE_STAGE_INVALID(0),
+    ROLE_STAGE_COMPUTE_STATE(1),
+    ROLE_STAGE_TAKE_CARD(2),
+    ROLE_STAGE_MOVE(3),
+    ROLE_STAGE_ACTION(4),
+    ROLE_STAGE_DISCARD_CRAD(5),
+    ROLE_STAGE_SELECT_BORN_POS(6),
+    ROLE_STAGE_REVIVE(7),
+    ROLE_STAGE_RE_SELECT_HERO(8),
+    ROLE_STAGE_RE_SELECT_SKILL(9),
+    ROLE_STAGE_RE_SELECT_CARD(10),
+    ROLE_STAGE_FIRST_AID_QUERY(11),
+    ROLE_STAGE_DODGE_QUERY(12),
+    ROLE_STAGE_BASE_HURT_DEFENCE_QUERY(13),
+    ROLE_STAGE_EXTRACT_ENEMY_CARD(14),
+    ROLE_STAGE_ALTER_ENEMY_SKILL_CD(15),
+    ROLE_STAGE_REMOVE(16),
+    ROLE_STAGE_STATUS_PURIFY(17),
+    ROLE_STAGE_ALTER_SELF_SKILL_CD(18),
+    ROLE_STAGE_WAIT(19);
+    
+    int value;
+	EStageType(int v)
+	{
+		this.value = v;
+	}
+	public int getValue()
+	{
+		return this.value;
+	}
+}

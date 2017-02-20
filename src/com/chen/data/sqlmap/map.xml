@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="map">
+	<resultMap id="map" type="com.chen.data.bean.MapBean">
+		<result column="mapid" property="m_nMapId"/>
+		<result column="mapname" property="m_strMapName"/>
+		<result column="maxcount" property="maxCount"/>
+		<result column="battlemodel" property="battleModel"/>
+	</resultMap>
+	<select id="select" resultMap="map">
+		select * from mapinfo
+	</select>
+</mapper>

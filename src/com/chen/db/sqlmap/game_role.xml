@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="game_role"> 
+  <resultMap id="role_brief" type="com.chen.db.bean.Role" >
+    <id column="roleid" property="roleId" jdbcType="BIGINT" />
+    <result column="userid" property="userId" jdbcType="VARCHAR" />
+   	<result column="create_server" property="createServer" jdbcType="INTEGER"/>
+    <result column="area" property="area" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="roleindex" property="roleIndex" jdbcType="INTEGER" />
+    <result column="icon" property="icon" jdbcType="VARCHAR"/>
+    <result column="logintime" property="loginTime" jdbcType="BIGINT" />
+    <result column="beastlist" property="beastList" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap id="role" type="com.chen.db.bean.Role" extends="game_role.role_brief" >
+  	<result column="data" property="data" jdbcType="LONGVARCHAR"/>
+  </resultMap>
+  <insert id="insert" parameterType="com.chen.db.bean.Role">
+  	insert into role (roleid,userid,create_server,area,name,sex,roleindex,level,exp,icon,money,ticket,loginip,onlinetime,addblackcount,beastlist)
+  	values(#{roleId},#{userId},#{createServer},#{area},#{name},#{sex},#{roleIndex},#{level},#{exp},#{icon},#{money},#{ticket},#{loginIp},#{onlineTime},#{addBlackCount},#{beastList})
+  </insert>
+  <select id="selectByUser" parameterType="java.util.Map" resultMap="role_brief">
+  	select roleid, userid, create_server, area, level, name, sex,roleindex from role where userid = #{userId,jdbcType=VARCHAR} and create_server = #{createServer,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByName" parameterType="String" resultType="int">
+  	select count(roleid) from role where name = #{name,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectById" parameterType="long" resultMap="role">
+  	select roleid, userid, create_server, area, level, name, sex,roleindex from role where roleid = #{roleId,jdbcType=BIGINT};
+  </select>
+  
+   <select id="selectNames" resultType="String">
+  	select name from role
+  </select>
+  <update id="update" parameterType="com.chen.db.bean.Role" >
+     update role
+      set level = #{level,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      logintime = #{loginTime,jdbcType=BIGINT},
+      isForbid = #{isForbid,jdbcType=INTEGER},
+      loginIp = #{loginIp,jdbcType=VARCHAR}, 
+      addBlackCount = #{addBlackCount,jdbcType=INTEGER}, 
+      beastlist = #{beastList,jdbcType=VARCHAR},
+      exp = #{exp,jdbcType=BIGINT},
+      onlineTime = #{onlineTime,jdbcType=BIGINT}, 
+    where roleid = #{roleId,jdbcType=BIGINT}
+  </update>
+</mapper>

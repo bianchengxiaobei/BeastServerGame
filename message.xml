@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+<message id="10001" message="ReqGateRegisterWorldMessage"></message>
+<message id="10002" message="ResGateRegisterWorldMessage"></message>
+<message id="10003" message="ReqRegisterGateMessage"></message>
+<message id="10004" message="ResRegisterGateMessage"></message>
+<message id="10005" message="ReqRegisterCenterMessage"></message>
+<message id="10006" message="ResRegisterCenterMessage"></message>
+<message id="10007" message="ReqCreateCharacterToGameServerMessage"/>
+<message id="10008" message="ResLoginSuccessToGateMessage"></message>
+</messages>
+
+<messages>
+<message id="1001" message="ReqLoginMessage"></message>
+<message id="1002" message="ResLoginMessage"></message>
+
+
+</messages>
