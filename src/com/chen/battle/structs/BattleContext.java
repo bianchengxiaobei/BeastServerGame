@@ -416,6 +416,14 @@ public class BattleContext extends BattleServer
 			msg.pos = path;
 		}
 		MessageUtil.tell_battlePlayer_message(this, msg);
+		//如果玩家还没有进入到释放技能阶段，就发送给玩家进入到技能阶段
+		if (beast.m_bHasAction == false)
+		{
+			ResBeastEnterStageMessage msg1 = new ResBeastEnterStageMessage();
+			msg1.beastId = beast.objId;
+			msg1.stage = EStageType.ROLE_STAGE_ACTION.getValue();
+			MessageUtil.tell_battlePlayer_message(this, msg1);
+		}
 		beast.actionState.cPos = pos;
 	}
 	/**

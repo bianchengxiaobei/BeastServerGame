@@ -14,6 +14,8 @@ public class SSBeast extends SSGameUnit
 	private Player m_player;
 	private int hp;
 	private int stage;
+	public boolean m_bHasMoved = false;//是否已经结束移动阶段
+	public boolean m_bHasAction = false;//是否已经结束释放技能阶段
 	public SSBeast(Player player, long beastId,ECampType eCampType,BattleContext battle)
 	{
 		this.m_player = player;
