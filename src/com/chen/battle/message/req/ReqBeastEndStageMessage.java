@@ -17,7 +17,7 @@ public class ReqBeastEndStageMessage extends Message
 	@Override
 	public String getQueue() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Local";
 	}
 
 	@Override

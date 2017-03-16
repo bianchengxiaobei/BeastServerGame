@@ -1,5 +1,6 @@
 package com.chen.battle.structs;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,10 +12,12 @@ import javax.swing.DebugGraphics;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 
 import com.chen.battle.message.res.ResAddRoleToSceneMessage;
 import com.chen.battle.message.res.ResBeastEnterStageMessage;
 import com.chen.battle.message.res.ResBeastMoveMessage;
+import com.chen.battle.message.res.ResEndPlayerRound;
 import com.chen.battle.message.res.ResEnterSceneMessage;
 import com.chen.battle.message.res.ResGamePrepareMessage;
 import com.chen.battle.message.res.ResSceneLoadedMessage;
@@ -28,10 +31,8 @@ import com.chen.battle.structs.beast.SSBeast;
 import com.chen.battle.structs.map.EMapNodeType;
 import com.chen.battle.structs.map.SSMap;
 import com.chen.battle.structs.map.SSMapCfg;
-import com.chen.map.structs.Map;
 import com.chen.player.manager.PlayerManager;
 import com.chen.player.structs.EBattleServerState;
-import com.chen.player.structs.EBattleState;
 import com.chen.player.structs.EBattleType;
 import com.chen.player.structs.Player;
 import com.chen.room.bean.RoomMemberData;
@@ -41,7 +42,6 @@ import com.chen.server.config.BattleConfig;
 import com.chen.structs.CVector3;
 import com.chen.structs.Vector3;
 import com.chen.utils.MessageUtil;
-import com.sun.prism.PixelFormat.DataType;
 
 public class BattleContext extends BattleServer
 {
@@ -224,10 +224,32 @@ public class BattleContext extends BattleServer
 		MessageUtil.tell_battlePlayer_message(this, msg);
 		beast.setStage(stage);
 	}
+	/**
+	 * 玩家结束战斗阶段，如果玩家都已经移动并且释放技能完了，就发送给客户端玩家退出他的战斗阶段。
+	 * 然后开始另外一个玩家开始阶段
+	 * @param beast
+	 * @param stage
+	 */
 	public void beastEndStage(SSBeast beast,int stage)
 	{
 		//记录下神兽完成了哪些阶段战斗
-		
+		if (stage == EStageType.ROLE_STAGE_ACTION.getValue())
+		{
+			beast.m_bHasAction = true;
+		}
+		if (stage == EStageType.ROLE_STAGE_MOVE.getValue())
+		{
+			beast.m_bHasMoved = true;
+		}
+		if (beast.m_bHasMoved == true && beast.m_bHasAction == true)
+		{
+			//发送结束该玩家回合
+			ResEndPlayerRound msg = new ResEndPlayerRound();
+			msg.playerId = beast.getPlayer().getId();
+			MessageUtil.tell_battlePlayer_message(this, msg);			
+			//发送下个玩家开始阶段
+			startBeastRound();
+		}
 	}
 	/**
 	 * 玩家发送加载完成消息
@@ -386,6 +408,7 @@ public class BattleContext extends BattleServer
 	 */
 	public void startBeastRound()
 	{
+		//按理来讲这里本来是双方玩家互换，而不是神兽顺序
 		long beastId = this.beastOrder.get(this.orderIndex);
 		ResStartBeastRoundMessage msg = new ResStartBeastRoundMessage();
 		msg.beastId = beastId;
@@ -416,6 +439,8 @@ public class BattleContext extends BattleServer
 			msg.pos = path;
 		}
 		MessageUtil.tell_battlePlayer_message(this, msg);
+		//玩家已经移动就设置移动状态为已经移动
+		beast.m_bHasMoved = true;
 		//如果玩家还没有进入到释放技能阶段，就发送给玩家进入到技能阶段
 		if (beast.m_bHasAction == false)
 		{

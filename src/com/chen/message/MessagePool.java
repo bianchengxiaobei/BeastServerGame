@@ -3,12 +3,16 @@ package com.chen.message;
 import java.util.HashMap;
 
 import com.chen.battle.handler.ReqAddRoleToSceneHandler;
+import com.chen.battle.handler.ReqBeastCastSkillHandler;
+import com.chen.battle.handler.ReqBeastEndStageHandler;
 import com.chen.battle.handler.ReqBeastEnterStageHandler;
 import com.chen.battle.handler.ReqBeastMoveHandler;
 import com.chen.battle.handler.ReqEnterSceneHandler;
 import com.chen.battle.handler.ReqSelectBeastHandler;
 import com.chen.battle.handler.ReqTrySelectBeastHandler;
 import com.chen.battle.message.req.ReqAddRoleToSceneMessage;
+import com.chen.battle.message.req.ReqBeastCastSkill;
+import com.chen.battle.message.req.ReqBeastEndStageMessage;
 import com.chen.battle.message.req.ReqBeastEnterStageMessage;
 import com.chen.battle.message.req.ReqBeastMoveMessage;
 import com.chen.battle.message.req.ReqEnterSceneMessage;
@@ -43,6 +47,8 @@ public class MessagePool
 		register(1023, ReqAddRoleToSceneMessage.class, ReqAddRoleToSceneHandler.class);
 		register(1026, ReqBeastEnterStageMessage.class, ReqBeastEnterStageHandler.class);
 		register(1028, ReqBeastMoveMessage.class, ReqBeastMoveHandler.class);
+		register(1030, ReqBeastEndStageMessage.class, ReqBeastEndStageHandler.class);
+		register(1031, ReqBeastCastSkill.class, ReqBeastCastSkillHandler.class);
 	}
 	private void register(int id,Class<?> messageClass,Class<?> handlerClass)
 	{

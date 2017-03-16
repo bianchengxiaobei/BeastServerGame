@@ -1,5 +1,7 @@
 package com.chen.battle.handler;
 
+import javax.swing.DebugGraphics;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -29,6 +31,7 @@ public class ReqBeastEndStageHandler extends Handler
 			{
 				this.log.error("战场不存在");
 			}
+			battle.beastEndStage(battle.getSSBeast(msg.beastId), msg.stage);
 		} catch (Exception e) {
 			this.log.error("神兽进入该阶段失败");
 		}		
