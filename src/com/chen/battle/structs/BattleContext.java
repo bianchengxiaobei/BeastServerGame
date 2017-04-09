@@ -14,7 +14,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
 
+import com.chen.battle.message.req.ReqBeastCastSkillMessage;
 import com.chen.battle.message.res.ResAddRoleToSceneMessage;
+import com.chen.battle.message.res.ResBeastCastSkillMessage;
+import com.chen.battle.message.res.ResBeastEndCastSkillMessage;
 import com.chen.battle.message.res.ResBeastEnterStageMessage;
 import com.chen.battle.message.res.ResBeastMoveMessage;
 import com.chen.battle.message.res.ResEndPlayerRound;
@@ -250,6 +253,32 @@ public class BattleContext extends BattleServer
 			//发送下个玩家开始阶段
 			startBeastRound();
 		}
+	}
+	/**
+	 * 神兽释放技能
+	 * @param beast
+	 * @param msg
+	 */
+	public void beastCastSkill(SSBeast beast,ReqBeastCastSkillMessage msg)
+	{
+		int skillId = msg.m_dwSkillId;
+		long attacker = msg.m_dwRoleId;
+		long beAttacker = msg.m_dwTargetRoleId;
+		CVector3 targetPos = msg.m_oTargetPos;
+		List<Long> hurtList = new ArrayList<Long>();
+		if (skillId == 1)
+		{
+			hurtList.add(beAttacker);
+		}
+		ResBeastCastSkillMessage resmsg = new ResBeastCastSkillMessage();
+		resmsg.m_dwRoleId = attacker;
+		resmsg.m_dwTargetRoleId = beAttacker;
+		resmsg.m_dwSkillId = skillId;
+		resmsg.m_oTargetPos = targetPos;
+		resmsg.m_oHurtList = hurtList;
+		MessageUtil.tell_battlePlayer_message(this, resmsg);
+		ResBeastEndCastSkillMessage resmsg1 = new ResBeastEndCastSkillMessage();
+		MessageUtil.tell_battlePlayer_message(this, resmsg1);
 	}
 	/**
 	 * 玩家发送加载完成消息
