@@ -22,6 +22,7 @@ public class SSBeast extends SSGameUnit
 		this.objId = beastId;
 		this.eCampType = eCampType;
 		this.battle = battle;
+		this.hp = 10;
 	}
 	/**
 	 * 加载神兽的基础配置
