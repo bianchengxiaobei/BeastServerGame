@@ -278,7 +278,7 @@ public class BattleContext extends BattleServer
 		resmsg.m_oTargetPos = targetPos;
 		resmsg.m_oHurtList = hurtList;
 		MessageUtil.tell_battlePlayer_message(this, resmsg);
-		beast.ChangeHp(-1, (byte) 0);
+		this.getSSBeast(beAttacker).ChangeHp(-1, (byte) 0);
 		ResBeastEndCastSkillMessage resmsg1 = new ResBeastEndCastSkillMessage();
 		MessageUtil.tell_battlePlayer_message(this, resmsg1);
 	}
