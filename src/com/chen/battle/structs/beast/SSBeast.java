@@ -132,6 +132,11 @@ public class SSBeast extends SSGameUnit
 		msg.setReason(reason);
 		MessageUtil.tell_battlePlayer_message(getCurBattle(), msg);
 	}
+	public void reset()
+	{
+		this.m_bHasAction = false;
+		this.m_bHasMoved = false;
+	}
 	public Player getPlayer() {
 		return m_player;
 	}

@@ -27,6 +27,7 @@ import com.chen.battle.message.res.ResHpChangedMessage;
 import com.chen.battle.message.res.ResSceneLoadedMessage;
 import com.chen.battle.message.res.ResSelectBeastMessage;
 import com.chen.battle.message.res.ResSelectBornPosMessage;
+import com.chen.battle.message.res.ResSkillCDChangeMessage;
 import com.chen.battle.message.res.ResStartBeastRoundMessage;
 import com.chen.battle.message.res.ResStartGameMessage;
 import com.chen.battle.message.res.ResTrySelectBeastMessage;
@@ -250,6 +251,7 @@ public class BattleContext extends BattleServer
 			//发送结束该玩家回合
 			ResEndPlayerRound msg = new ResEndPlayerRound();
 			msg.playerId = beast.getPlayer().getId();
+			beast.reset();
 			MessageUtil.tell_battlePlayer_message(this, msg);			
 			//发送下个玩家开始阶段
 			startBeastRound();
@@ -279,6 +281,11 @@ public class BattleContext extends BattleServer
 		resmsg.m_oHurtList = hurtList;
 		MessageUtil.tell_battlePlayer_message(this, resmsg);
 		this.getSSBeast(beAttacker).ChangeHp(-1, (byte) 0);
+		ResSkillCDChangeMessage cdMsg = new ResSkillCDChangeMessage();
+		cdMsg.beastId = attacker;
+		cdMsg.skillId = skillId;
+		cdMsg.value = 1;
+		MessageUtil.tell_battlePlayer_message(this, cdMsg);
 		ResBeastEndCastSkillMessage resmsg1 = new ResBeastEndCastSkillMessage();
 		MessageUtil.tell_battlePlayer_message(this, resmsg1);
 	}
@@ -445,6 +452,10 @@ public class BattleContext extends BattleServer
 		msg.beastId = beastId;
 		MessageUtil.tell_battlePlayer_message(this, msg);
 		this.orderIndex++;
+		if (this.orderIndex >= this.beastOrder.size())
+		{
+			this.orderIndex = 0;
+		}
 	}
 	/**
 	 * 通知其他玩家神兽移动了
